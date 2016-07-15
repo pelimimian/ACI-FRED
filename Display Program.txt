@@ -1,0 +1,21 @@
+/**************************************************
+Written by: Diallo Braithwaithe and Peter Elimimian
+June 9, 2016
+***************************************************/
+function showSidebar() 
+{
+  var html = HtmlService.createHtmlOutputFromFile('Display_Window')
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .setTitle('ACI FRED')
+      .setWidth(200);
+  SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
+      .showSidebar(html);
+}
+
+function onOpen() 
+{
+    var ui = SpreadsheetApp.getUi();
+    ui.createMenu('AMS' )
+        .addItem('ACI Message Sender V2', 'showSidebar')
+        .addToUi();
+}

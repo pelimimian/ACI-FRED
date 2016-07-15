@@ -1,0 +1,195 @@
+/**************************************************
+ACI Fred
+Written by: Diallo Braithwaithe and Peter Elimimian
+June 9, 2016
+***************************************************/
+var ss = SpreadsheetApp.getActiveSpreadsheet();
+var sheet = ss.getSheets()[0];
+var ui = SpreadsheetApp.getUi();
+
+var namesArray = new Array ();
+var position = 0;
+var boolean1 = false;
+var boolean2 = false;
+
+var resultArray = new Array();
+
+var carrier = [
+          '@vtext.com',
+          '@tmomail.net',
+          '@txt.att.net',
+          '@messaging.sprintpcs.com'
+           ];
+
+function printNames(recipients, subject, message, phoneLocation, emailLocation) {
+        /*Split function takes all names, separated by end of line, a pushes each
+         name into a names Array*/
+         
+        this.subject = subject;
+        this.message = message;
+        this.phoneLocation = phoneLocation;
+        this.emailLocation = emailLocation;
+        phoneLocation = phoneLocation.toLowerCase();
+        emailLocation = emailLocation.toLowerCase();
+      if (phoneLocation == "a" ||phoneLocation == "b" ||phoneLocation == "c" ||phoneLocation == "d" ||phoneLocation == "f" || phoneLocation == ""){
+          boolean1 = true}
+      if (emailLocation == "a" ||emailLocation == "b" ||emailLocation == "c" ||emailLocation == "d" ||emailLocation == "f" || emailLocation == ""){
+          boolean2 = true}
+      if (boolean1 && boolean2 == true){ui.alert("Recipients that will be contacted \n" + recipients);}
+      else{ui.alert("Error: The text and/or Emal letter must be in the range cell A to F")}
+       var names = recipients.split('\n');
+      
+          for(var i = 0; i < names.length; i++)
+          {
+            namesArray.push(names[i]);
+            findRow(namesArray[i]);
+               send_to_text(subject, message, phoneLocation);
+               send_to_email(subject, message, emailLocation);
+          }
+}
+
+
+
+/*Goes through the multidimensonal array. Start by scanning the first row,
+scans each desired column, until it gets until the, the goes to the next to repeat the
+process until there are no more rows*/
+function send_to_text(subject, message, phoneLocation)
+{
+  var counter = 1;
+  var position = 13;
+ 
+  var choice;
+  this.pL = phoneLocation;
+  if(boolean1 && boolean2 == true){
+  switch(pL)
+  {
+    case "a":
+        choice = 0;
+        break;
+    case "b":
+        choice = 1;
+        break;
+    case "c":
+        choice = 2;
+        break;
+    case "d":
+        choice = 3;
+        break;
+    case "e":
+        choice = 4;
+        break;
+    case "f":
+        choice = 5;
+        break;  
+    default:
+        choice = 0;
+        break;
+  }}
+  /*Creates goes through the array, starts at the first row, then goes into each column
+  until it reaches the last column of that current row, then it goes to the next row.
+  It keeps going until there are no more rows to go through.*/
+  if(choice){ 
+  for (var i = 0; i < resultArray.length; i++)
+  {
+    for(var j = 0; j < resultArray[i].length; j++)
+        {
+           var result = (resultArray[i][choice]);
+           var resultnumbers = [result];
+
+          }
+   }     
+            for (var k = 0; k < carrier.length;  k++)
+            {
+              if (resultnumbers != "")
+              {
+                 var textAddress = (resultnumbers + carrier[k]);
+                 var sms = textAddress.replace(/[()]/g, "").replace(/-/g, "").replace(/ /g, "");
+                  SpreadsheetApp.flush();
+                  //Mail Sent app must be put outside of both for loops
+                  MailApp.sendEmail(sms, subject, message);
+                  SpreadsheetApp.flush();
+                  counter++;
+              }
+            }
+    position++;    
+  }}
+
+/*Goes through the multidimensonal array. Start by scanning the first row,
+scans each desired column, until it gets until the, the goes to the next to repeat the
+process until there are no more rows*/
+function send_to_email(subject, message, emailLocation)
+{
+  var counter = 1;
+  var position = 13;
+  
+  var choice;
+  this.eL = emailLocation;
+  if(boolean1 && boolean2 == true){
+  switch(eL)
+  {
+    case "a":
+        choice = 0;
+        break;
+    case "b":
+        choice = 1;
+        break;
+    case "c":
+        choice = 2;
+        break;
+    case "d":
+        choice = 3;
+        break;
+    case "e":
+        choice = 4;
+        break;
+    case "f":
+        choice = 5;
+        break;  
+    default:
+        choice = 0;
+        break;
+  }}
+   if(choice){
+  for (var i = 0; i < resultArray.length; i++)
+  {
+    for(var j = 0; j < resultArray[i].length; j++)
+        {
+          if(choice){ 
+          var result = (resultArray[i][choice]);
+          var emailAddress = result;
+                        
+          }
+}
+
+         counter++;
+     position++;
+  }
+   //Mail Sent app must be put outside of both for loops  
+   MailApp.sendEmail(emailAddress, subject, message);
+   SpreadsheetApp.flush();
+   }
+}
+
+/*Tests the findRow to see it wil print out the row*/
+function testfindRow(){ 
+             findRow(name);
+             printArray();
+     }
+    //
+ /*Searches the entire spreadsheet by going through each cell
+ if the cell match the string, it pushed it into the resulsArray*/   
+function findRow(item) { // the actual search function
+            var ss = SpreadsheetApp.getActiveSpreadsheet();
+            var sheet=ss.getSheets()[0];
+            var values = sheet.getDataRange().getValues();
+              for(i = 0; i < values.length; ++i) 
+              {
+                if(values[i].toString().match(item)==item && values[i].toString().match(item) != "")
+                {
+                   resultArray.push(values[i]);
+                   break;
+                 }
+              }
+
+            return resultArray ;// the returned value is a 2 dimensions array to use with setValues()
+}

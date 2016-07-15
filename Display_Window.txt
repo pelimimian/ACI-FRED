@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--Written by: Diallo Braithwaithe and Peter Elimimian-->
+<!--June 9, 2016-->
+<html>
+  <head>
+    <base target="_top">
+  </head>
+    
+     <body>
+      Recipients: <textarea rows="10" cols="25" id="recipients"> </textarea>
+      <br><br>
+      Colmun Letter for Phone: <input type="text" id="phone" style="width: 25px;">
+      <br><br>
+      Column Letter for Email: <input type="text" id="email" style="width: 25px;">
+      <br><br>
+      Subject: <input type="text" id="subject" style="width: 30px,height: 1200px">
+      <br><br>
+      Message: <textarea rows="20" cols="35" id="message"> </textarea>
+      
+      <button onclick="readRecipient()">Send</button>
+      
+  <script>
+     
+     function readRecipient()
+     {
+         var recipients = document.getElementById("recipients").value;
+         var subject = document.getElementById("subject").value;
+          var message = document.getElementById("message").value;
+          var phoneLocation = document.getElementById("phone").value;
+          var emailLocation = document.getElementById("email").value;
+
+         google.script.run.printNames(recipients, subject, message, phoneLocation, emailLocation );         
+     }
+    </script>
+      </body>
+</html>
